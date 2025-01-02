@@ -1,5 +1,5 @@
 {
-  description = "Cross compiling a rust program for windows";
+  description = "Building my rust project";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -12,26 +12,27 @@
         system = "x86_64-linux";
         overlays = [ (import rust-overlay) ];
       };
+      buildInputs = with pkgs; [
+        openssl
+        pkg-config
+        rust-bin.stable.latest.default
+      ];
     in
     {
       devShells.default = with pkgs; mkShell {
-        buildInputs = [
-          # Openssl is for example required by the `reqwest` crate
-          openssl
-          pkg-config
-          rust-bin.stable.latest.default
-        ];
+        inherit buildInputs;
       };
 
       packages.x86_64-linux.default = pkgs.rustPlatform.buildRustPackage {
         cargoLock.lockFile = ./Cargo.lock;
         src = ./.;
-        name = "my-bevy-sandbox";
-        buildInputs = with pkgs; [
-          openssl
-          pkg-config
-          rust-bin.stable.latest.default
-        ];
+        name = "my_bevy_sandbox";
+        inherit buildInputs;
+      };
+
+      apps.x86_64-linux.default = {
+        type = "app";
+        program = "${self.packages.x86_64-linux.default}/bin/my_bevy_sandbox";
       };
     };
 }
