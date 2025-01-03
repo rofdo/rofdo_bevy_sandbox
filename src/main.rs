@@ -19,6 +19,7 @@ fn main() {
         .init_state::<AppState>()
         .add_systems(Startup, setup)
         .add_systems(OnEnter(AppState::Menu), spawn_main_menu)
+        .add_systems(OnExit(AppState::Menu), despawn_entities_with_component::<OnMainMenuScreen>)
         .run();
 }
 
@@ -26,15 +27,27 @@ fn setup(mut commands: Commands) {
     commands.spawn(Camera2d);
 }
 
+#[derive(Component)]
+struct OnMainMenuScreen;
+
+fn despawn_entities_with_component<T: Component>(query: Query<Entity, With<T>>, mut commands: Commands) {
+    for entity in query.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
+}
+
 fn spawn_main_menu(mut commands: Commands) {
     commands
-        .spawn(Node {
-            width: Val::Percent(100.0),
-            height: Val::Percent(100.0),
-            align_items: AlignItems::Center,
-            justify_content: JustifyContent::Center,
-            ..default()
-        })
+        .spawn((
+            Node {
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                align_items: AlignItems::Center,
+                justify_content: JustifyContent::Center,
+                ..default()
+            },
+            OnMainMenuScreen,
+        ))
         .with_children(|parent| {
             parent
                 .spawn((
