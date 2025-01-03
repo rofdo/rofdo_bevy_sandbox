@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+mod settings;
 
 const TEXT_COLOR: Color = Color::srgb(0.9, 0.9, 0.9);
 const FONT_SIZE: f32 = 40.0;
@@ -20,6 +21,7 @@ fn main() {
         .add_systems(Startup, setup)
         .add_systems(OnEnter(AppState::Menu), spawn_main_menu)
         .add_systems(OnExit(AppState::Menu), despawn_entities_with_component::<OnMainMenuScreen>)
+        .add_plugins(settings::settings_plugin)
         .run();
 }
 
