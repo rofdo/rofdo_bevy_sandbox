@@ -3,8 +3,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     rust-overlay.url = "github:oxalica/rust-overlay";
+    flake-utils.url = "github:numtide/flake-utils";
   };
-  outputs = { self, nixpkgs, rust-overlay, ... }:
+  outputs = { self, flake-utils, nixpkgs, rust-overlay, ... }:
     let
       pkgs = import nixpkgs {
         system = "x86_64-linux";
@@ -52,9 +53,24 @@
           patchelf --set-rpath "${libraryPath}" $out/bin/my_bevy_sandbox
         '';
       };
+      packages.x86_64-linux.server = pkgs.rustPlatform.buildRustPackage {
+        pname = "server";
+        version = "0.1.0";
+        cargoLock.lockFile = ./Cargo.lock;
+        src = ./.;
+        inherit buildInputs nativeBuildInputs;
+        
+        postFixup = ''
+          patchelf --set-rpath "${libraryPath}" $out/bin/my_bevy_sandbox
+        '';
+      };
       apps.x86_64-linux.default = {
         type = "app";
         program = "${self.packages.x86_64-linux.default}/bin/my_bevy_sandbox";
+      };
+      apps.x86_64-linux.server = {
+        type = "app";
+        program = "${self.packages.x86_64-linux.default}/bin/server";
       };
     };
 }
