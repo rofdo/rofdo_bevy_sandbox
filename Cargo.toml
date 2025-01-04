@@ -2,9 +2,11 @@
 name = "my_bevy_sandbox"
 version = "0.1.0"
 edition = "2021"
+default-run = "my_bevy_sandbox"
 
 [dependencies]
 bevy = { version = "0.15.0" }
+bevy_renet = "1.0.0"
 
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]
@@ -22,4 +24,8 @@ codegen-units = 1
 # Do a second optimization pass over the entire program, including dependencies.
 # Slows compile times, marginal improvements.
 lto = "thin"
+
+[[bin]]
+name = "server"
+path = "src/server.rs"
 
