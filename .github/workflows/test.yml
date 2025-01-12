@@ -1,4 +1,3 @@
-
 name: Run Cargo Tests in Nix Shell
 
 on:
@@ -21,7 +20,7 @@ jobs:
         run: |
           curl -L https://nixos.org/nix/install | sh
           . /home/runner/.nix-profile/etc/profile.d/nix.sh
-          nix-env -iA nixpkgs.nixFlakes
+          nix-env -iA nixpkgs.nixVersions.stable
 
       - name: Enter Nix development shell and run tests
         run: |
