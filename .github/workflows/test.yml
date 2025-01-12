@@ -37,3 +37,7 @@ jobs:
           # The set -e ensures the script fails if any command fails
           set -e
           nix develop -c cargo test
+
+      - name: Build Server application
+        run: |
+          nix develop -c cargo build --bin server
