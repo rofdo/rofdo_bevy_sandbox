@@ -1,5 +1,6 @@
 # my_bevy_sandbox
-A repository for me to try out bevy and nix related stuff
+A repository for me to try out bevy and nix related stuff.
+Public mainly for free github actions.
 
 # Building
 Nix toolchain needs to be installed and configured with flakes enabled.
