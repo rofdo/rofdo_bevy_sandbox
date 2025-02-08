@@ -1,4 +1,8 @@
+mod cl_input;
+use cl_input::*;
+
 fn main() {
-    println!("Hello, world!");
+    let input = ClInput::parse();
+    println!("{:?}", input);
 }
 
