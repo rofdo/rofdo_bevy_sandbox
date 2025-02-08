@@ -7,6 +7,7 @@ default-run = "my_bevy_sandbox"
 [dependencies]
 bevy = { version = "0.15.0" }
 bevy_renet = "1.0.0"
+clap = { version = "4.5.28", features = ["derive"] }
 
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]

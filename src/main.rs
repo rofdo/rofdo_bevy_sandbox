@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 mod settings;
+mod cl_input;
 
 const TEXT_COLOR: Color = Color::srgb(0.9, 0.9, 0.9);
 const FONT_SIZE: f32 = 40.0;
